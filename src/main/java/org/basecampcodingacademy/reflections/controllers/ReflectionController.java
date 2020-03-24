@@ -1,5 +1,6 @@
 package org.basecampcodingacademy.reflections.controllers;
 
+import org.basecampcodingacademy.reflections.db.QuestionRepository;
 import org.basecampcodingacademy.reflections.db.ReflectionRepository;
 import org.basecampcodingacademy.reflections.domain.Reflection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class ReflectionController {
     @Autowired
     public ReflectionRepository reflections;
 
+    @Autowired
+    public QuestionRepository questions;
+
     @GetMapping
     public List<Reflection> index() {
         return reflections.all();
@@ -27,8 +31,11 @@ public class ReflectionController {
     }
 
     @GetMapping("/today")
-    public Reflection today() {
+    public Reflection today(@RequestParam(defaultValue = "") String include) {
         var reflection =  reflections.find(LocalDate.now());
+        if (include.equals("questions")) {
+            reflection.questions = questions.forReflection(reflection.id);
+        }
         return reflection;
     }
 
