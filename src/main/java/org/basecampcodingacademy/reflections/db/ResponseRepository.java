@@ -17,14 +17,14 @@ public class ResponseRepository {
     public JdbcTemplate jdbc;
 
     public List<Response> all() {
-        return jdbc.query("SELECT id, reflectionId, username FROM responses", this::mapper);
+        return jdbc.query("SELECT id, reflectionId, userUsername FROM responses", this::mapper);
     }
 
     public Response create(Response response) {
         return jdbc.queryForObject(
-                "INSERT INTO responses (username, reflectionId) VALUES (?, ?) RETURNING id, username, reflectionId",
+                "INSERT INTO responses (userUsername, reflectionId) VALUES (?, ?) RETURNING id, userUsername, reflectionId",
                 this::mapper,
-                response.username,
+                response.userUsername,
                 response.reflectionId
 
         );
@@ -39,12 +39,12 @@ public class ResponseRepository {
     }
 
     public Response find(Integer id) {
-        return jdbc.queryForObject("SELECT id, reflectionId, username FROM responses WHERE id = ?", this::mapper, id);
+        return jdbc.queryForObject("SELECT id, reflectionId, userUsername FROM responses WHERE id = ?", this::mapper, id);
     }
 
     public Response update(Response response) {
         return jdbc.queryForObject(
-                "UPDATE responses SET username = ? WHERE id = ? RETURNING id, reflectionId",
+                "UPDATE responses SET userUsername = ? WHERE id = ? RETURNING id, reflectionId",
                 this::mapper, response.reflectionId, response.id);
     }
 
@@ -56,7 +56,7 @@ public class ResponseRepository {
         return new Response(
                 resultSet.getInt("id"),
                 resultSet.getInt("reflectionId"),
-                resultSet.getString("username"),
+                resultSet.getString("userUsername"),
                 null
         );
     }

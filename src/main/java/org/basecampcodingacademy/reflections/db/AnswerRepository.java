@@ -17,13 +17,16 @@ public class AnswerRepository {
             return jdbc.query("SELECT id, responseId, questionId, content FROM answers", this::mapper);
     }
 
+    public Answer findone(Integer id) {
+        return jdbc.queryForObject("SELECT id, responseId, questionId, content FROM answers WHERE id = ?", this::mapper, id);
+    }
+
     public Answer create(Answer answer) {
-        var sql = "INSERT INTO answers (responseId, questionId, content) VALUES (?, ?, ?) RETURNING responseId, questionId, content";
+        var sql = "INSERT INTO answers (responseId, content) VALUES (?, ?) RETURNING *";
         return jdbc.queryForObject(
                 sql,
                 this::mapper,
                 answer.responseId,
-                answer.questionId,
                 answer.content
         );
     }
@@ -35,9 +38,10 @@ public class AnswerRepository {
                 id);
     }
 
+
     public Answer update(Answer answer) {
         return jdbc.queryForObject(
-                "UPDATE answers SET content = ? WHERE id = ? RETURNING id, content",
+                "UPDATE answers SET content = ? WHERE id = ? RETURNING *",
                 this::mapper, answer.content, answer.id);
     }
 

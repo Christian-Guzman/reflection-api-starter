@@ -14,15 +14,20 @@ public class AnswerController {
     @Autowired
     public AnswerRepository answers;
 
-    @GetMapping("/responses/{questionId}/answers")
+    @GetMapping("/responses/{responseId}/answers")
     public List<Answer> index() {
         return answers.all();
     }
 
-    @PostMapping("/responses/{questionId}/answers")
+    @GetMapping("/answers/{id}")
+    public Answer index(@PathVariable Integer id) {
+        return answers.findone(id);
+    }
+
+    @PostMapping("/responses/{responseId}/answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Answer create(@RequestBody Answer answer, @PathVariable Integer questionId){
-        answer.questionId = questionId;
+    public Answer create(@RequestBody Answer answer, @PathVariable Integer responseId){
+        answer.responseId = responseId;
         return answers.create(answer);
     }
 
@@ -31,6 +36,7 @@ public class AnswerController {
         answer.id = id;
         return answers.update(answer);
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

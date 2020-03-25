@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS questions(
 CREATE TABLE IF NOT EXISTS responses(
     id SERIAL PRIMARY KEY,
     reflectionId INTEGER REFERENCES reflections(id),
-    username TEXT REFERENCES users(username),
-    answers TEXT NULL
+    userUsername TEXT,
+    answers TEXT
 );
 
 CREATE TABLE IF NOT EXISTS answers(
