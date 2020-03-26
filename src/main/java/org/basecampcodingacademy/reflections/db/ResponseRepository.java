@@ -16,8 +16,8 @@ public class ResponseRepository {
     @Autowired
     public JdbcTemplate jdbc;
 
-    public List<Response> all() {
-        return jdbc.query("SELECT id, reflectionId, userUsername FROM responses", this::mapper);
+    public List<Response> forReflection(Integer reflectionid) {
+        return jdbc.query("SELECT * FROM responses WHERE reflectionId = ?", this::mapper, reflectionid);
     }
 
     public Response create(Response response) {
@@ -26,20 +26,7 @@ public class ResponseRepository {
                 this::mapper,
                 response.userUsername,
                 response.reflectionId
-
         );
-    }
-
-    public Response find() {
-        try {
-            return jdbc.queryForObject("SELECT id, reflectionId FROM responses WHERE reflectionId = ? LIMIT 1", this::mapper);
-        } catch (EmptyResultDataAccessException ex) {
-            return null;
-        }
-    }
-
-    public Response find(Integer id) {
-        return jdbc.queryForObject("SELECT id, reflectionId, userUsername FROM responses WHERE id = ?", this::mapper, id);
     }
 
     public Response update(Response response) {
