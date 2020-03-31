@@ -27,7 +27,7 @@ public class ResponseController {
     @GetMapping
     public List<Response> index(Response response, @PathVariable Integer reflectionId) {
         response.reflectionId = reflectionId;
-        return (List<Response>) responses.getOne(response);
+        return responses.getResponses(response);
     }
 
 
@@ -41,11 +41,6 @@ public class ResponseController {
         throw new ResponseForNonExistingReflection(response.reflectionId);
     }
 
-//    @GetMapping("/today")
-//    public Response today() {
-//        var response =  responses;
-//        return response;
-//    }
 
     @PatchMapping("/{id}")
     public Response update(@PathVariable Integer reflectionId,@PathVariable Integer id, @RequestBody Response response) {

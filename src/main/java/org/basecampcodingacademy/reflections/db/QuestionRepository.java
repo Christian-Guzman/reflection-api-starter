@@ -14,10 +14,6 @@ public class QuestionRepository {
     @Autowired
     public JdbcTemplate jdbc;
 
-    public List<Question> all() {
-        return jdbc.query("SELECT id, prompt, reflectionId FROM questions", this::mapper);
-    }
-
     public List<Question> forReflection(Integer reflectionId) {
         return jdbc.query(
                 "SELECT * FROM questions WHERE reflectionId = ?", this::mapper, reflectionId
@@ -32,14 +28,6 @@ public class QuestionRepository {
                 question.reflectionId
         );
     }
-
-//    public Question find() {
-//        try {
-//            return jdbc.queryForObject("SELECT id, prompt FROM questions WHERE prompt = ? LIMIT 1", this::mapper);
-//        } catch (EmptyResultDataAccessException ex) {
-//            return null;
-//        }
-//    }
 
     public Question find(Integer id) {
         return jdbc.queryForObject("SELECT id, prompt, reflectionId FROM questions WHERE id = ?", this::mapper, id);

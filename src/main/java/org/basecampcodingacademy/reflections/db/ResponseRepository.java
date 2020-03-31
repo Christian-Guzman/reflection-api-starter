@@ -38,7 +38,7 @@ public class ResponseRepository {
         }
     }
 
-    public List<Response> getOne(Response response) {
+    public List<Response> getResponses(Response response) {
         return jdbc.query("SELECT id, reflectionId, userUsername, answers FROM responses WHERE reflectionId = ?", this::mapper, response.reflectionId);
     }
 
