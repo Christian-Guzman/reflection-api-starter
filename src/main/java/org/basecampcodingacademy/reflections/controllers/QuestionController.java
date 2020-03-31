@@ -18,7 +18,7 @@ public class QuestionController {
     @GetMapping
     public List<Question> index(Question question, @PathVariable Integer reflectionId) {
         question.reflectionId = reflectionId;
-        return (List<Question>) questions.forReflection(reflectionId);
+        return questions.forReflection(reflectionId);
     }
 
     @PostMapping
